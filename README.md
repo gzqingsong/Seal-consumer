@@ -1,1 +1,1 @@
-# Seal-consumer
+This is project for image handling.
