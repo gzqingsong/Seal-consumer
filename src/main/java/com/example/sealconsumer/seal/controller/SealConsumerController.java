@@ -18,6 +18,7 @@ public class SealConsumerController {
         ServiceInstance serviceInstance = loadBalancerClient.choose("seal-service");
         log.info("service address: "+serviceInstance.getUri());
         log.info("service name: "+ serviceInstance.getServiceId());
+        log.info("port: 8083");
         log.info("this is test for seal consumer.");
         String callServiceResult = new RestTemplate().getForObject(serviceInstance.getUri().toString()+"/seal",String.class);
         log.info(callServiceResult);
