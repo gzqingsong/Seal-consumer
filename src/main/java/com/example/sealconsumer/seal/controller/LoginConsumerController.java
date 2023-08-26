@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import com.alibaba.fastjson.JSONObject;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -29,13 +28,14 @@ public class LoginConsumerController {
         log.info("service address: "+serviceInstance.getUri());
         log.info("service name: "+ serviceInstance.getServiceId());
         log.info("this is for seal consumer user login.");
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("employeeId", employeeId);
-        map.put("password", password);
-        //用HttpEntity封装整个请求报文
-        HttpEntity<HashMap<String, Object>> request = new HttpEntity<>(map, headers);
+        Map<String, String> params = new HashMap<>();
+        params.put("employeeId", employeeId);
+        params.put("password", password);
+        String stringPath="/seal/user/login?employeeId="+employeeId+"&"+"password="+password;
+        String requestUrl=serviceInstance.getUri().toString()+stringPath;
+        log.info("request url: "+serviceInstance.getUri().toString()+stringPath);
 
-        String callServiceResult = new RestTemplate().postForObject(serviceInstance.getUri().toString()+"/seal/user/login",request,String.class);
+        String callServiceResult = new RestTemplate().postForObject(requestUrl,null,String.class);
 
         log.info(callServiceResult);
 
