@@ -6,12 +6,12 @@ spring:
   cloud:
     consul:
       discovery:
-        health-check-path: /actuator/health #检测实例健康
+        health-check-path: /seal/health #检测实例健康
         health-check- interval: 10s
         #每隔1es检查
         hostname: localhost
         #配置实例地址
         register: true # 自动注册
-        service-name: ${spring.application.name} #实例名称
+        service-name: ${spring.application.name}-${spring.cloud.client.ip-address} #实例名称
       host: localhost
       port: 8500
