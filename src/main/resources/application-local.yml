@@ -1,5 +1,7 @@
 server:
   port: 8083
+  servlet:
+    context-path: /seal
 spring:
   application:
     name: seal-consumer
@@ -12,6 +14,11 @@ spring:
         hostname: localhost
         #配置实例地址
         register: true # 自动注册
-        service-name: ${spring.application.name}-${spring.cloud.client.ip-address} #实例名称
+        service-name: ${spring.application.name} #实例名称
       host: localhost
       port: 8500
+zuul:
+  routes:
+    real:
+      path: /real/**
+      service-id: seal-consumer
